@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Product;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +15,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        User::factory(3)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        Product::factory(10)->create();
+
+        Order::factory(6)->create()->each(function (Order $order) {
+            $order->orderItems()->saveMany(OrderItem::factory(3)->make());
+        });
     }
 }
